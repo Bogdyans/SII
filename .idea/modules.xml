@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ticractoe.iml" filepath="$PROJECT_DIR$/ticractoe.iml" />
       <module fileurl="file://$PROJECT_DIR$/zad1/zad1.iml" filepath="$PROJECT_DIR$/zad1/zad1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/zad2/zad2.iml" filepath="$PROJECT_DIR$/zad2/zad2.iml" />
     </modules>
   </component>
 </project>

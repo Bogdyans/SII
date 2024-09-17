@@ -1,10 +1,12 @@
-public class TicTacToe {
+class TicTacToe {
     private char[][] board;
     private char currentPlayer;
+    private char playerRole;
 
-    public TicTacToe() {
+    public TicTacToe(char playerRole) {
+        this.playerRole = playerRole; // Запоминаем роль игрока
+        currentPlayer = 'X'; // Игра всегда начинается с 'X'
         board = new char[3][3];
-        currentPlayer = 'X';
         initializeBoard();
     }
 
@@ -20,10 +22,14 @@ public class TicTacToe {
         return board;
     }
 
-    public void placeMark(int row, int col) {
-        if (row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == '-') {
-            board[row][col] = currentPlayer;
-            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+    public boolean isCellEmpty(int row, int col) {
+        return board[row][col] == '-';
+    }
+
+    public void placeMark(int row, int col, char mark) {
+        if (isCellEmpty(row, col)) {
+            board[row][col] = mark;
+            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X'; // Смена текущего игрока
         }
     }
 }
