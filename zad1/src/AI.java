@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class AI {
+public class AI implements IAI{
     private char aiRole;
     private Random random = new Random();
     private int turn = 0;
@@ -10,12 +10,14 @@ public class AI {
     public AI(char aiRole) {
         this.aiRole = aiRole;
     }
-
+    
+    @Override
     public char getAiRole() {
         return aiRole;
     }
 
     // Метод для выбора хода
+    @Override
     public int[] chooseMove(char[][] board) {
         turn += 1;
         if (aiRole == 'X'){
@@ -139,10 +141,10 @@ public class AI {
                 if (board[1][1] == '-') return new int[] {1, 1};
                 return new int[] {0, 0};
             default:
-                int[] check = checkEnemyWin(board);
+                int[] check = checkWin(board);
                 if (check != null) return check;
 
-                check = checkWin(board);
+		check = checkEnemyWin(board);
                 if (check != null) return check;
 
                 check = checkCorners(board);

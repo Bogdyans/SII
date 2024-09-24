@@ -8,16 +8,20 @@ public class TicTacToeGUI extends JFrame {
     private JLabel[][] cells; // Ячейки для отображения игрового поля
     private char playerRole; // Роль игрока ('X' или 'O')
     private boolean isPlayerTurn; // Флаг, проверяющий, может ли игрок сделать ход
-    private AI ai; // Экземпляр AI для управления противником
+    private IAI ai; 
+    private IAI ai2;// Экземпляр AI для управления противником
+    private int turn = 0; 
 
     public TicTacToeGUI() {
         chooseRole();
         game = new TicTacToe(playerRole); // Инициализация игры с выбранной ролью
+	ai2 = new MaxMinAI(playerRole);
         ai = new AI(playerRole == 'X' ? 'O' : 'X'); // AI играет за противоположную роль
         cells = new JLabel[3][3]; // Массив для визуальных ячеек
         initializeUI(); // Метод для настройки интерфейса
         isPlayerTurn = playerRole == 'X';
-        if (!isPlayerTurn) {
+        if (true) {
+	    turn++;
             aiTurn();// Игрок X всегда ходит первым
         }
     }
@@ -49,7 +53,7 @@ public class TicTacToeGUI extends JFrame {
                             game.placeMark(row, col, playerRole); // Игрок делает ход
                             updateBoard(); // Обновляем поле
                             isPlayerTurn = false; // Передаем ход противнику
-
+				
                             // Ход AI
                             aiTurn();
                         }
@@ -66,15 +70,20 @@ public class TicTacToeGUI extends JFrame {
     // Ход AI (заготовка)
     private void aiTurn() {
         SwingUtilities.invokeLater(() -> {
+	    if (turn == 10) return;
             // AI выбирает ход
-            int[] move = ai.chooseMove(game.getBoard());
+		
+            int[] move = (isPlayerTurn)? ai2.chooseMove(game.getBoard()) : ai.chooseMove(game.getBoard());
+	    char mark = (isPlayerTurn)? ai2.getAiRole() : ai.getAiRole();
             if (move != null) {
-                game.placeMark(move[0], move[1], ai.getAiRole()); // AI делает ход
+                game.placeMark(move[0], move[1], mark); // AI делает ход
                 updateBoard(); // Обновляем поле
             }
 
             // Возвращаем ход игроку
-            isPlayerTurn = true;
+            isPlayerTurn = !isPlayerTurn;
+	    turn++;
+	    aiTurn();
         });
     }
 
