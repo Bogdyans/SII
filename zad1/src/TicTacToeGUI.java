@@ -15,7 +15,7 @@ public class TicTacToeGUI extends JFrame {
     public TicTacToeGUI() {
         chooseRole();
         game = new TicTacToe(playerRole); // Инициализация игры с выбранной ролью
-	ai2 = new MaxMinAI(playerRole);
+	    ai2 = new MinMaxAI(playerRole);
         ai = new AI(playerRole == 'X' ? 'O' : 'X'); // AI играет за противоположную роль
         cells = new JLabel[3][3]; // Массив для визуальных ячеек
         initializeUI(); // Метод для настройки интерфейса
@@ -70,10 +70,10 @@ public class TicTacToeGUI extends JFrame {
     // Ход AI (заготовка)
     private void aiTurn() {
         SwingUtilities.invokeLater(() -> {
-	    if (turn == 10) return;
-            // AI выбирает ход
-		
-            int[] move = (isPlayerTurn)? ai2.chooseMove(game.getBoard()) : ai.chooseMove(game.getBoard());
+	    if (turn == 10) return;// AI выбирает ход
+
+        int[] move = (isPlayerTurn)? ai2.chooseMove(game.getBoard()) : ai.chooseMove(game.getBoard());
+
 	    char mark = (isPlayerTurn)? ai2.getAiRole() : ai.getAiRole();
             if (move != null) {
                 game.placeMark(move[0], move[1], mark); // AI делает ход
@@ -83,7 +83,12 @@ public class TicTacToeGUI extends JFrame {
             // Возвращаем ход игроку
             isPlayerTurn = !isPlayerTurn;
 	    turn++;
-	    aiTurn();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            aiTurn();
         });
     }
 
